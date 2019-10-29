@@ -1,0 +1,5 @@
+.row card {
+  display: flex;
+  flex: auto;
+  justify-content: center;
+}

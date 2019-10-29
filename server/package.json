@@ -1,0 +1,36 @@
+{
+  "name": "Adventure Game",
+  "version": "1.0.0",
+  "description": "A Dungeons and Drangons inspired game.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexditto/Adventure-Game.git"
+  },
+  "keywords": [
+    "Game",
+    "Project",
+    "Dungeons",
+    "Dragons",
+    "Test"
+  ],
+  "author": "Alex Ditto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexditto/Adventure-Game/issues"
+  },
+  "homepage": "https://github.com/alexditto/Adventure-Game#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^3.1.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.7.7",
+    "pug": "^2.0.4"
+  }
+}

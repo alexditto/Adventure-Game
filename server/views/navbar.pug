@@ -1,0 +1,19 @@
+extends layout
+
+.container
+  // page contaner
+  // nav bar
+  nav.navbar.navbar-expand-lg.navbar-light.shadow-lg.p-3.mb-5.bg-secondary.rounded.text-light
+    a.navbar-brand.text-light(href='#') Amature Dungeon Master
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarNavAltMarkup.collapse.navbar-collapse
+      .navbar-nav
+        a.nav-item.nav-link.active(href='#')
+          | Home
+          span.sr-only (current)
+        a.nav-item.nav-link(href='#') Email
+        form.form-inline
+          input#cheatCodes.form-control.mr-sm-2(type='search', placeholder='Cheat Codes', aria-label='Search')
+          button.btn.btn-outline-success.bg-success.my-2.my-sm-0.text-body(type='submit') Submit
+  // /nav bar
