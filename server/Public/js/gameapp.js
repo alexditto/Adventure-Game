@@ -1,5 +1,7 @@
 const getRandomNumber = upper => Math.floor(Math.random()* upper) +1;
 
+const saveButton = document.getElementById("save");
+
 const playerHealthDisplay= document.getElementById("playerHealth");
 const playerLevelDisplay = document.getElementById("playerLevel");
 const enemyHealthDisplay= document.getElementById("enemyHealth");
@@ -22,7 +24,7 @@ const monstersSlain= document.getElementById("monstersSlain");
 const image= document.getElementById("image");
 const goldDisplay= document.getElementById("goldDisplay");
 const goldImage= document.getElementById("goldImage");
-const cheat= document.getElementById("cheatCodes");
+
 
 let playerLevel = 1;
 let playerXp = 0;
@@ -46,6 +48,32 @@ let loss = 0;
 let gold = 0;
 
 // dragon.style.visibility= "hidden";
+
+//save data to database experiment!!!! not working
+// save.addEventListener("click", (playerLevel, playerXp, playerHealth, playerAC, healthPotions, playerAttackBonus, playerAttackDie, playerDamageMod, win, loss, gold)=> {
+//   let saveData = {
+//     playerLevel: playerLevel,
+//     playerXp: playerXp,
+//     playerHealth: playerHealth,
+//     playerAC: playerAC,
+//     healthPotions: healthPotions,
+//     playerAttackBonus: playerAttackBonus,
+//     playerAttackDie: playerAttackDie,
+//     playerDamageMod: playerDamageMod,
+//     win: win,
+//     loss: loss,
+//     gold: gold
+//   }
+//   app.post("/", (req, res, next)=>{
+//     Character.create(saveData, function(error, user){
+//       if(error){
+//         return next(error);
+//       } else {
+//         return res.redirect('/');
+//       }
+//     });
+//   });
+// });
 
 //creates a new monster and populates the stats and image
 const newMonster = () => {

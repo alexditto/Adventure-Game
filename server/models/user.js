@@ -7,7 +7,7 @@ var userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  name: {
+  username: {
     type: String,
     required: true,
     trim: true
@@ -15,6 +15,10 @@ var userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  character: {
+    type: Array,
+    required: false
   }
 });
 
@@ -39,9 +43,9 @@ userSchema.statics.authenticate = (email, password, callback)=> {
 }
 
 //salt and hash
-userSchema.pre("save", (next)=> {
+userSchema.pre("save", function(next) {
   var user = this;
-  bcrypt.hash(user.password, 10, (err, hash)=> {
+  bcrypt.hash(user.password, 10, function(err, hash) {
     if(err) {
       return next(err);
     }
@@ -50,5 +54,5 @@ userSchema.pre("save", (next)=> {
   });
 });
 
-const User = mongoose.model("User", userSchema);
+var User = mongoose.model("User", userSchema);
 module.exports = User;

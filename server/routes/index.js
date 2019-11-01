@@ -1,9 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const user = require('../models/user');
+const User = require('../models/user');
+const Character = require('../models/character');
 const mid = require('../middleware');
 
 //GET /profile
+// router.get('/profile', mid.requiresLogin, (req, res, next)=> {
+// User.findById(req.session.userId)
+//       .exec((error, user)=> {
+//         if(error){
+//           return next(error);
+//         } else {
+//           return res.render('profile', { title: 'Profile', name: user.username});
+//         }
+//       });
+// });
+router.get('/profile', (req, res, next)=>{
+  return res.render("profile", { title: "Profile "});
+})
 
 //GET /login
 router.get('/login', mid.loggedOut, (req, res, next)=> {
@@ -31,6 +45,17 @@ router.post("/login", (req, res, next)=> {
 });
 
 //GET /logout
+router.get('/logout', (req, res, next)=>{
+  if (req.session) {
+    req.session.destroy((err)=> {
+      if (err){
+        return next(err);
+      } else {
+        return res.redirect('/');
+      }
+    })
+  }
+});
 
 //GET /register
 router.get("/register", mid.loggedOut, (req, res, next)=> {
@@ -40,7 +65,7 @@ router.get("/register", mid.loggedOut, (req, res, next)=> {
 //POST /register
 router.post("/register", (req, res, next)=> {
   if(req.body.email &&
-  req.body.name &&
+  req.body.username &&
   req.body.password &&
   req.body.confirmPassword){
 
@@ -54,7 +79,7 @@ router.post("/register", (req, res, next)=> {
     // create object with form input
     var userData = {
       email: req.body.email,
-      name: req.body.name,
+      username: req.body.username,
       password: req.body.password
     }
 
@@ -75,7 +100,32 @@ router.post("/register", (req, res, next)=> {
   }
 });
 
-//POST new character
+// POST Create a new character
+router.post("/profile", (req, res, next)=>{
+  let saveData = {
+    character: req.body.character,
+    account: req.session.userId,
+    playerLevel: 1,
+    playerXp: 0,
+    playerHealth: 15,
+    playerAC: 15,
+    healthPotions: 3,
+    playerAttackBonus: 5,
+    playerAttackDie: 6,
+    playerDamageMod: 4,
+    win: 0,
+    loss: 0,
+    gold: 0
+  }
+
+  Character.create(saveData, function(error, user){
+    if(error){
+      return next(error);
+    } else {
+      return res.redirect('/profile');
+    }
+  });
+});
 
 //GET character
 
@@ -83,21 +133,24 @@ router.post("/register", (req, res, next)=> {
 
 //DELETE charachter
 
+//GET game
+router.get('/game', (req, res, next)=> {
+    return res.render('game', { title: "Game"});
+});
 
 //GET /
 router.get('/', (req, res, next)=> {
   return res.render('index', { title: "Home"});
 });
-//!!!! Fix based on pug layouts
 
 //GET /about
 router.get('/about', (req, res, next)=> {
   return res.render('about', { title: "About"});
-})
+});
 
 //GET /rules
 router.get('/rules', (req, res, next)=> {
   return res.render('rules', { title: "Rules"});
-})
+});
 
 module.exports = router;

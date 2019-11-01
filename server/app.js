@@ -8,8 +8,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 //mongoDB connection via mongoose
-mongoose.connect("mongodb://localhost:27017/adventureGame");
-const db = mongoose.connection;
+mongoose.connect("mongodb://localhost:27017/adventureGame", { userUnifiedTopology: true, useNewUrlParser: true }).then(()=> console.log('Mongo is Connected'));
+var db = mongoose.connection;
 db.on('error', console.log.bind(console, 'connection error:'));
 
 //use sessions for tracking logins
@@ -30,7 +30,7 @@ app.use((req, res, next)=> {
 
 //Parse incoming requests and cookie
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //View engine and PUG
@@ -46,7 +46,7 @@ app.use('/', routes);
 
 //404 catch and forward to error handler
 app.use((req, res, next) =>{
-  const err = new Error("Not Found");
+  var err = new Error('File Not Found');
   err.status = 404;
   next(err);
 });

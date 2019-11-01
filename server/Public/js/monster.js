@@ -42,4 +42,4 @@ monsters.push(...monsterManualMonsters);
 
 const sortCRs = monsters.sort((a, b) => (a.cr > b.cr) ? 1: -1);
 
-console.log(sortCRs);
+// console.log(sortCRs);
