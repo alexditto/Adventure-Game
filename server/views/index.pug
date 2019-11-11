@@ -1,7 +1,12 @@
 extends layout
 
 block content
-  .main.container.text-xs-center
-    h1.display-3 Adventure Game
-    p.lead Can you make it to leve 20? Sign up, kick down some doors, kill some monsters, and grab some loot.
-    a.btn.btn-info-outline.btn-lg(href='/register') Get Started for FREE
+  main
+    div.container.text-xs-center
+      h1.display-4 Adventure Game
+      p.lead Can you make it to leve 20? Sign up, kick down some doors, kill some monsters, and grab some loot.
+      img.wizard(src='images/wizard.jpg', alt='wizard')
+      if currentUser
+        a.btn.btn-info-outline.btn-lg(href='/profile') Let's Go Play
+      else
+        a.btn.btn-info-outline.btn-lg(href='/register') Get Started for FREE

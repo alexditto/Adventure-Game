@@ -44,6 +44,7 @@ app.use(express.static(__dirname + '/public'));
 const routes = require('./routes/index');
 app.use('/', routes);
 
+
 //404 catch and forward to error handler
 app.use((req, res, next) =>{
   var err = new Error('File Not Found');

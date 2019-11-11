@@ -16,8 +16,17 @@ const mid = require('../middleware');
 //       });
 // });
 router.get('/profile', (req, res, next)=>{
-  return res.render("profile", { title: "Profile "});
-})
+  Character.find({account: req.session.userId}, function(err, character){
+    res.redirect('/profile/'+ req.session.userId);
+  });
+  // return res.render("profile", { title: "Profile "});
+});
+
+router.get('/profile/:userId', (req, res, next)=> {
+  var json= Character.find({ account: req.session.userId });
+  // [{id:1, name:req.session.userId}];
+  res.render("profile", { title: "Profile", json});
+});
 
 //GET /login
 router.get('/login', mid.loggedOut, (req, res, next)=> {
@@ -131,11 +140,20 @@ router.post("/profile", (req, res, next)=>{
 
 //PUT character
 
-//DELETE charachter
+//DELETE character
+
 
 //GET game
-router.get('/game', (req, res, next)=> {
+router.get('/game', mid.requiresLogin, (req, res, next)=> {
     return res.render('game', { title: "Game"});
+});
+
+//GET game by Character
+router.get('/game/:id', (req, res, next)=> {
+  Character.find({_id: req.params.id}, function(err, character) {
+    // res.send(character)
+    return res.render('game', {character});
+  });
 });
 
 //GET /
@@ -152,5 +170,168 @@ router.get('/about', (req, res, next)=> {
 router.get('/rules', (req, res, next)=> {
   return res.render('rules', { title: "Rules"});
 });
+
+//API
+//API to get profile working
+router.get('/api/profile/:_id', (req, res, next)=> {
+  User.find({_id: req.params._id}, function(err, user) {
+    console.log(user);
+    res.send(JSON.stringify(user));
+  });
+});
+
+//API to get character working
+router.get('/api/:character', (req, res, next)=>{
+  Character.find({character: req.params.character}, function(err, character) {
+    console.log(character);
+    res.send(JSON.stringify(character));
+  });
+});
+
+router.get('/api/character/:id', (req, res, next)=>{
+  Character.find({account: req.params.id}, function(err, character) {
+    console.log(character);
+    res.send(JSON.stringify(character));
+  });
+});
+
+//API to delete character working
+router.delete('/api/delete/character/:id', function(req, res, next) {
+  Character.findOneAndRemoveAsync(req.params.id)
+    .then(function() {
+      res.status(204).end();
+    })
+    .catch(function(err){
+      return res.status(500).send(err);
+    })
+  // const id = req.params.id;
+  // Character.deleteOne({ _id : id })
+  //   .exec()
+  //   .then( result => {
+  //     res.status(200).json(result);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     res.status(500).json({
+  //       error:err
+  //     })
+  //   })
+});
+
+//API to delete Profile working
+router.delete('/api/delete/profile/:id', function(req, res, next) {
+  const id = req.params.id;
+  User.deleteOne({ _id : id })
+      .exec()
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error:err
+        })
+      })
+});
+
+//API to put character working by object through postman
+// router.patch('/api/patch/character/:id', (req, res, next)=> {
+//   const id = req.params.id;
+//   console.log(req.body);
+//   const updateStats = {};
+//   for (const stats of req.body) {
+//     updateStats[stats.propName] = stats.value;
+//   }
+//
+//   Character.update({ _id:id}, {$set: updateStats })
+//             .exec()
+//             .then(result=> {
+//               res.status(200).json(result);
+//             })
+//             .catch(err => {
+//               console.log(err);
+//               res.status(500).json({
+//                 error:err
+//               });
+//             })
+// })
+router.patch('/api/patch/character/:id', (req, res, next)=> {
+  const id = req.params.id;
+  let newStats = {
+    _id: req.params.id,
+    playerLevel: req.body.playerLevel,
+    playerXp: req.body.playerXp,
+    playerHealth: req.body.playerHealth,
+    playerAC: req.body.playerAC,
+    healthPotions: req.body.healthPotions,
+    playerAttackBonus: req.body.playerAttackBonus,
+    playerAttackDie: req.body.playerAttackDie,
+    playerDamageMod: req.body.playerDamageMod,
+    win: req.body.win,
+    loss: req.body.loss,
+    gold: req.body.gold
+  }
+  console.log(newStats);
+
+  Character.updateOne({_id: req.params.id}, {
+    playerLevel: req.body.playerLevel,
+    playerXp: req.body.playerXp,
+    playerHealth: req.body.playerHealth,
+    playerAC: req.body.playerAC,
+    healthPotions: req.body.healthPotions,
+    playerAttackBonus: req.body.playerAttackBonus,
+    playerAttackDie: req.body.playerAttackDie,
+    playerDamageMod: req.body.playerDamageMod,
+    win: req.body.win,
+    loss: req.body.loss,
+    gold: req.body.gold
+  } )
+            .exec()
+            .then(result=> {
+              res.status(200).json(result);
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json({
+                error:err
+              });
+            })
+})
+
+
+
+
+//starting over with put, not working
+// router.put('/api/:character', (req, res, next)=> {
+//   let newStats = {
+//     playerLevel: req.params.playerLevel,
+//     playerXp: req.params.playerXp,
+//     playerHealth: req.params.playerHealth,
+//     playerAC: req.params.playerAC,
+//     healthPotions: req.params.healthPotions,
+//     playerAttackBonus: req.params.playerAttackBonus,
+//     playerAttackDie: req.params.playerAttackDie,
+//     playerDamageMod: req.params.playerDamageMod,
+//     win: req.params.win,
+//     loss: req.params.loss,
+//     gold: req.params.gold
+//   }
+//   Character.updateOne({character: req.params.character}, newStats, function(err, character) {
+//     if (err) throw err;
+//     console.log("Updated");
+//   });
+// });
+
+
+
+router.get('/character/:character', (req, res)=> {
+  // Character.find({_id: req.params._id}, function(err, character) {
+  //   res.send(character);
+  Character.find({character: req.params.character}, function(err, character) {
+    console.log(character);
+    res.render('rules', {character});
+  });
+});
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ const loggedOut = (req, res, next) =>{
 };
 
 const requiresLogin = (req, res, next) => {
-  if (re.session && req.session.userId){
+  if (req.session && req.session.userId){
     next();
   }
   var err = new Error("Please log in to see this page.");

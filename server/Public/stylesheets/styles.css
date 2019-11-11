@@ -1,5 +1,29 @@
-.row card {
+body{
+  background-color: #e7e7e7;
+}
+
+.card img {
   display: flex;
   flex: auto;
   justify-content: center;
+  max-height: 300px;
+  min-height: 300px;
+}
+
+#stickyFoot{
+  position: relative;
+  min-height: 50vh;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+.wizard{
+  max-width: 15rem;
 }

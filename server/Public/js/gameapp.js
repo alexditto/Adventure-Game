@@ -26,14 +26,14 @@ const goldDisplay= document.getElementById("goldDisplay");
 const goldImage= document.getElementById("goldImage");
 
 
-let playerLevel = 1;
-let playerXp = 0;
-let playerHealth = 10;
-let playerAC = 15;
-let healthPotions = 3;
-let playerAttackBonus= 5;
-let playerAttackDie= 6;
-let playerDamageMod= 4;
+// let playerLevel = 1;
+// let playerXp = 0;
+// let playerHealth = 10;
+// let playerAC = 15;
+// let healthPotions = 3;
+// let playerAttackBonus= 5;
+// let playerAttackDie= 6;
+// let playerDamageMod= 4;
 let monster;
 let monsterName;
 let enemyHealth;
@@ -42,10 +42,10 @@ let enemyAttackDie;
 let enemyDamageMod;
 let enemyAC;
 let monsterImage;
-let roundCounter= 0;
-let win = 0;
-let loss = 0;
-let gold = 0;
+// let roundCounter= 0;
+// let win = 0;
+// let loss = 0;
+// let gold = 0;
 
 // dragon.style.visibility= "hidden";
 

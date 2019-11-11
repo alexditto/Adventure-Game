@@ -5,12 +5,13 @@
     a.navbar-brand.text-light(href='/') Amateur Dungeon Master
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
       span.navbar-toggler-icon
-    #navbarNavAltMarkup.collapse.navbar-collapse
+    #navbarNavAltMarkup.collapse.navbar-collapse.justify-content-end
       .navbar-nav
         a.nav-item.nav-link.active(href='/')
           | Home
           span.sr-only (current)
         if currentUser
+          a.nav-item.nav-link(href='/profile') Profile
           a.nav-item.nav-link(href='/game') Game
         a.nav-item.nav-link(href='/rules') Rules
         if !currentUser
