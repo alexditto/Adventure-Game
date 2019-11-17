@@ -182,7 +182,7 @@ router.get('/api/profile/:_id', (req, res, next)=> {
 
 //API to get character working
 router.get('/api/:character', (req, res, next)=>{
-  Character.find({character: req.params.character}, function(err, character) {
+  Character.find({_id: req.params.character}, function(err, character) {
     console.log(character);
     res.send(JSON.stringify(character));
   });
@@ -197,25 +197,25 @@ router.get('/api/character/:id', (req, res, next)=>{
 
 //API to delete character working
 router.delete('/api/delete/character/:id', function(req, res, next) {
-  Character.findOneAndRemoveAsync(req.params.id)
-    .then(function() {
-      res.status(204).end();
-    })
-    .catch(function(err){
-      return res.status(500).send(err);
-    })
-  // const id = req.params.id;
-  // Character.deleteOne({ _id : id })
-  //   .exec()
-  //   .then( result => {
-  //     res.status(200).json(result);
+  // Character.findOneAndRemoveAsync(req.params.id)
+  //   .then(function() {
+  //     res.status(204).end();
   //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     res.status(500).json({
-  //       error:err
-  //     })
+  //   .catch(function(err){
+  //     return res.status(500).send(err);
   //   })
+  const id = req.params.id;
+  Character.deleteOne({ _id : id })
+    .exec()
+    .then( result => {
+      res.status(200).json(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error:err
+      })
+    })
 });
 
 //API to delete Profile working
@@ -274,17 +274,17 @@ router.patch('/api/patch/character/:id', (req, res, next)=> {
   console.log(newStats);
 
   Character.updateOne({_id: req.params.id}, {
-    playerLevel: req.body.playerLevel,
-    playerXp: req.body.playerXp,
-    playerHealth: req.body.playerHealth,
-    playerAC: req.body.playerAC,
-    healthPotions: req.body.healthPotions,
-    playerAttackBonus: req.body.playerAttackBonus,
-    playerAttackDie: req.body.playerAttackDie,
-    playerDamageMod: req.body.playerDamageMod,
-    win: req.body.win,
-    loss: req.body.loss,
-    gold: req.body.gold
+    playerLevel: newStats.playerLevel,
+    playerXp: newStats.playerXp,
+    playerHealth: newStats.playerHealth,
+    playerAC: newStats.playerAC,
+    healthPotions: newStats.healthPotions,
+    playerAttackBonus: newStats.playerAttackBonus,
+    playerAttackDie: newStats.playerAttackDie,
+    playerDamageMod: newStats.playerDamageMod,
+    win: newStats.win,
+    loss: newStats.loss,
+    gold: newStats.gold
   } )
             .exec()
             .then(result=> {
