@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .main.container.clearfix
+    .row
+      .col-md-8.col-md-offset-2
+        h1.display-4 Choose your hero
+        .container
+          .row
+            form(method="POST" action='/profile')
+              div.form-group
+                label(for='character') Name your Character
+                input.form-control(type='text' id='character' name='character')
+                button#save.btn.btn-primary(type='submit') Save
+            h1.display-4
+            p Please choose a character
+            ul#characterDisplay
