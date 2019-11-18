@@ -8,7 +8,7 @@ block content
       #buttonRow.col.text-center
         button#fight.btn.btn-danger Fight
         button#healthPotion.btn.btn-primary Health Potion: 3
-        button#newFight.btn.btn-light New Fight
+        button#newFight.btn.btn-light.btn-outline-dark New Fight
         button#run.btn.btn-warning Run Away
         button#save.btn.btn-primary Save
 
@@ -18,6 +18,7 @@ block content
     .row
       .col.border
         #playerNameDisplay.h-3 Player Name:
+        #playerImage
         br
         #playerLevel.h-3 Player Level: 1
         #playerHealth.font-weight-bold Player Health
@@ -28,7 +29,6 @@ block content
         p#goldDisplay Gold
         img#goldImage
         #result  Next Round
-        #playerAlert.alert.alert-danger.alert-dismissible.fade.show(role='alert')
 
         //
           <button id="castle" class="btn btn-primary">Buy the Castle: 500 gold</button>
@@ -36,9 +36,13 @@ block content
       .col.border
         #enemyHealth.font-weight-bold Enemy Health
         #image.img-thumbnail.img-fluid.text-center
-        #enemyAlert.alert.alert-success.alert-dismissible.fade.show(role='alert')
         #totalWins Total Wins: 0
         #totalLosses Total Losses: 0
+    .row
+      .col-6
+        #playerAlert.alert.alert-danger.alert-dismissible.fade.show(role='alert')
+      .col-6
+        #enemyAlert.alert.alert-success.alert-dismissible.fade.show(role='alert')
     // item cards
     .h3.col.sm-12.text-center.inventory Inventory
     .container.inventoryContainer

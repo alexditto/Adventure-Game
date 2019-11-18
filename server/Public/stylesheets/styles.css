@@ -55,3 +55,19 @@ body{
   max-height: 200px;
   max-width: 200px;
 }
+
+#heroImage {
+  border-radius: 25%;
+      max-height: 200px;
+      margin: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+}
+
+*:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+  border-color: none;
+  box-shadow: none;
+}

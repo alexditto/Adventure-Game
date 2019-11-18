@@ -3,6 +3,7 @@ const playerNameDisplay = document.getElementById("playerNameDisplay");
 
 let playerName= "";
 let playerLevel = 1;
+let playerImage;
 let playerXp = 0;
 let playerHealth = 10;
 let playerAC = 15;
@@ -20,6 +21,7 @@ fetch(apiAddress)
       .then(function(data) {
         playerName = data[0].character;
         playerLevel = data[0].playerLevel;
+        playerImage = data[0].image;
         playerXp = data[0].playerXp;
         playerHealth = data[0].playerHealth;
         playerAC = data[0].playerAC;

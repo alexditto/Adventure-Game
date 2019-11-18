@@ -3,7 +3,9 @@
   flex: auto;
   justify-content: center;
 }
-
+*:focus {
+  outline: none;
+}
 .inventory {
     margin-bottom: 1rem;
     margin-top: 2rem;

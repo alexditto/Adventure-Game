@@ -27,14 +27,20 @@ const image= document.getElementById("image");
 const goldDisplay= document.getElementById("goldDisplay");
 const goldImage= document.getElementById("goldImage");
 const enemyAlert = document.getElementById("enemyAlert");
+const playerImageDisplay = document.getElementById("playerImage");
 
 const doorImage = document.createElement("IMG");
 doorImage.src = "images/door.png";
 doorImage.classList.add("monsterImage");
 image.appendChild(doorImage);
 
-
-
+setTimeout(()=> {
+  const playerImageToDisplay = document.createElement("IMG");
+  playerImageToDisplay.src = `images/${playerImage}`;
+  playerImageToDisplay.setAttribute("id", "heroImage")
+  playerImageToDisplay.classList.add("text-center");
+  playerImageDisplay.appendChild(playerImageToDisplay);
+}, 100)
 
 // let playerLevel = 1;
 // let playerXp = 0;
@@ -99,6 +105,7 @@ const send = ()=> {
 // }
 
 const putData = () =>{
+  $("#save").html("").removeClass("btn btn-primary").addClass("spinner-border text-success");
   fetch('http://localhost:3000/api/patch/character/'+ window.location.href.slice(27), {
     method: "PATCH",
     body: JSON.stringify(send()),
@@ -106,7 +113,10 @@ const putData = () =>{
   })
   .then(res => res.json())
   .then(data =>console.log(data))
-  $("#save").html("Save Successful").removeClass("btn btn-primary").addClass("btn btn-success").delay(800).removeClass("btn btn-success").addClass("btn btn-primary").html("Save");
+  setTimeout(()=> {
+    $("#save").removeClass("spinner-border text-success").addClass("btn btn-primary").html("Save");
+  }, 2000)
+  // $("#save").fadeOut(400).fadeIn(400).removeClass("spinner-border text-success").addClass("btn btn-primary").html("Save");
 }
 
 // async function spinner() {
@@ -334,6 +344,12 @@ healthPotionButton.addEventListener("click", ()=> useHealingPotion());
 
 fight.addEventListener("click", ()=> {
   attackRound();
+  // while(playerImageDisplay.firstChild){playerImageDisplay.removeChild(playerImageDisplay.firstChild)};
+  // const playerImageToDisplay = document.createElement("IMG");
+  // playerImageToDisplay.src = `images/${playerImage}`;
+  // playerImageToDisplay.setAttribute("id", "heroImage")
+  // playerImageToDisplay.classList.add("text-center");
+  // playerImageDisplay.appendChild(playerImageToDisplay);
 });
 
 newFight.addEventListener("click", ()=> {
