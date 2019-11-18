@@ -1,6 +1,7 @@
 const getRandomNumber = upper => Math.floor(Math.random()* upper) +1;
 
 const saveButton = document.getElementById("save");
+const saveAlert = document.getElementById("saveAlert");
 
 const playerHealthDisplay= document.getElementById("playerHealth");
 const playerLevelDisplay = document.getElementById("playerLevel");
@@ -8,6 +9,7 @@ const enemyHealthDisplay= document.getElementById("enemyHealth");
 const playerDamageDisplay=document.getElementById("playerDamage");
 const playerAccuracyDisplay= document.getElementById("playerAttackBonus");
 const playerACDisplay= document.getElementById("playerAC");
+const playerAlert = document.getElementById("playerAlert");
 
 const round= document.getElementById("round");
 const fight= document.getElementById("fight");
@@ -24,6 +26,14 @@ const monstersSlain= document.getElementById("monstersSlain");
 const image= document.getElementById("image");
 const goldDisplay= document.getElementById("goldDisplay");
 const goldImage= document.getElementById("goldImage");
+const enemyAlert = document.getElementById("enemyAlert");
+
+const doorImage = document.createElement("IMG");
+doorImage.src = "images/door.png";
+doorImage.classList.add("monsterImage");
+image.appendChild(doorImage);
+
+
 
 
 // let playerLevel = 1;
@@ -94,9 +104,15 @@ const putData = () =>{
     body: JSON.stringify(send()),
     headers: {"Content-Type": "application/json"},
   })
-  .then(req =>console.log(req))
   .then(res => res.json())
+  .then(data =>console.log(data))
+  $("#save").html("Save Successful").removeClass("btn btn-primary").addClass("btn btn-success").delay(800).removeClass("btn btn-success").addClass("btn btn-primary").html("Save");
 }
+
+// async function spinner() {
+//   await putData();
+//   $("#save").removeClass("btn btn-primary").addClass("spinner-border text-success").fadeOut(500).fadeIn(200);
+// }
 
 
 
@@ -137,7 +153,10 @@ const newMonster = () => {
   enemyDamageMod = monster.damageMod;
   enemyAC = monster.ac;
   monsterImage =document.createElement("img");
+  monsterImage.classList.add("text-center");
   monsterImage.src = monster.image;
+  monsterImage.classList.add("monsterImage");
+  image.removeChild(image.childNodes[0]);
   image.appendChild(monsterImage);
 };
 
@@ -173,7 +192,8 @@ const levelUp = () => {
   playerXp ++;
   if (playerLevel % 3 == 0 && playerXp >= 3){ /* levels up with new potions */
       healthPotions += 3;
-      healthPotionButton.style.visibility = "visible";
+      // healthPotionButton.style.visibility = "visible";
+      healthPotionButton.classList.remove("hide-button");
       healthPotionButton.innerHTML = `Health Potion: ${healthPotions}`;
       playerLevel ++;
       playerLevelDisplay.innerHTML = `Player Level: ${playerLevel}!`;
@@ -223,25 +243,41 @@ const useHealingPotion = () => {
   healthPotions --;
   playerHealthDisplay.innerHTML = `You gained ${heal} points back! Your health is now ${playerHealth}`;
   healthPotionButton.innerHTML = `Health Potion: ${healthPotions}`
-  if (healthPotions <= 0) {healthPotionButton.style.visibility= "hidden";}
+  if (healthPotions <= 0) {
+    // healthPotionButton.style.visibility= "hidden";
+    helathPotionButton.classList.add("hide-button");
+  }
 }
 
 const playerAttack = (attackBonus, attackDie, damageMod) => {
+  let dataReturn = 0;
+  let enemyAlertDisplay= $("#enemyAlert");
   let playerAttack = getRandomNumber(20)+ attackBonus;
   if (playerAttack > enemyAC) {
-    return getRandomNumber(attackDie) + damageMod;
+    let damage = getRandomNumber(attackDie) + damageMod;
+    enemyAlert.innerHTML = `${monsterName} lost -${damage} Health.`;
+    dataReturn = damage;
   } else {
-    return 0;
+    enemyAlert.innerHTML = `You missed.`;
   }
+  enemyAlertDisplay.show();
+  enemyAlertDisplay.delay( 400 ).fadeOut( 400 );
+  return dataReturn;
 }
 
 const enemyAttack = (attackBonus, attackDie, damageMod) => {
+  let dataReturn = 0;
+  let playerAlertDisplay = $("#playerAlert");
   let enemyAttack = getRandomNumber(20)+ attackBonus;
   if (enemyAttack > playerAC) {
-    return getRandomNumber(attackDie) + damageMod;
+    let damage = getRandomNumber(attackDie) + damageMod;
+    playerAlert.innerHTML = `You took ${damage} damage.`
+    dataReturn = damage;
   } else {
-    return 0;
+    playerAlert.innerHTML= `The ${monsterName} missed.`
   }
+  playerAlertDisplay.show().delay( 400 ).fadeOut( 400 );
+  return dataReturn;
 }
 
 const attackRound =()=> {
@@ -262,18 +298,26 @@ const attackRound =()=> {
     // li.className += "overflow-auto";
     // monstersSlain.appendChild(li);
     result.innerHTML = "Player Wins!!!";
-    fight.disabled = true;
-    newFight.style.visibility = 'visible';
+    fight.classList.add("hide-button");
+    healthPotionButton.classList.add("hide-button");
+    run.classList.add("hide-button");
+    // newFight.style.visibility = 'visible';
+    newFight.classList.remove("hide-button");
     totalWins.innerHTML = `Total Wins: ${win}`;
     image.removeChild(image.childNodes[0]);
+    image.appendChild(doorImage);
   } else if (playerHealth <=0){
     levelDown();
     loss += 1;
     result.innerHTML = "Player Died!";
-    fight.disabled = true;
-    newFight.style.visibility = 'visible';
+    fight.classList.add("hide-button");
+    healthPotionButton.classList.add("hide-button");
+    run.classList.add("hide-button");
+    // newFight.style.visibility = 'visible';
+    newFight.classList.remove("hide-button");
     totalLosses.innerHTML =  `Total Losses: ${loss}`;
     image.removeChild(image.childNodes[0]);
+    image.appendChild(doorImage);
   } else {
     result.innerHTML = "Next Round";
   }
@@ -283,7 +327,8 @@ newMonster();
 
 playerHealthDisplay.innerHTML= `Player Health: ${playerHealth}`;
 enemyHealthDisplay.innerHTML= `Enemy Health ${enemyHealth}. You are fighting a(n) ${monsterName}.`;
-newFight.style.visibility= "hidden";
+// newFight.style.visibility= "hidden";
+newFight.classList.add("hide-button");
 
 healthPotionButton.addEventListener("click", ()=> useHealingPotion());
 
@@ -297,14 +342,18 @@ newFight.addEventListener("click", ()=> {
   newMonster();
   enemyHealthDisplay.innerHTML = `Enemy Health: ${enemyHealth}. You are fighting a(n) ${monsterName}.`;
   roundCounter = 0;
-  fight.disabled = false;
-  newFight.style.visibility= 'hidden';
+  fight.classList.remove("hide-button");
+  healthPotionButton.classList.remove("hide-button");
+  run.classList.remove("hide-button");
+  // newFight.style.visibility= 'hidden';
+  newFight.classList.add("hide-button");
   adjustStats();
 });
 
 run.addEventListener("click", ()=> {
   removeGold();
   image.removeChild(image.childNodes[0]);
+  image.appendChild(doorImage);
   playerHealth= 10 + (playerLevel * 5);
   newMonster();
   adjustStats();

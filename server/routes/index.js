@@ -114,6 +114,7 @@ router.post("/profile", (req, res, next)=>{
   let saveData = {
     character: req.body.character,
     account: req.session.userId,
+    image: req.body.hero,
     playerLevel: 1,
     playerXp: 0,
     playerHealth: 15,
@@ -135,13 +136,6 @@ router.post("/profile", (req, res, next)=>{
     }
   });
 });
-
-//GET character
-
-//PUT character
-
-//DELETE character
-
 
 //GET game
 router.get('/game', mid.requiresLogin, (req, res, next)=> {
@@ -297,32 +291,6 @@ router.patch('/api/patch/character/:id', (req, res, next)=> {
               });
             })
 })
-
-
-
-
-//starting over with put, not working
-// router.put('/api/:character', (req, res, next)=> {
-//   let newStats = {
-//     playerLevel: req.params.playerLevel,
-//     playerXp: req.params.playerXp,
-//     playerHealth: req.params.playerHealth,
-//     playerAC: req.params.playerAC,
-//     healthPotions: req.params.healthPotions,
-//     playerAttackBonus: req.params.playerAttackBonus,
-//     playerAttackDie: req.params.playerAttackDie,
-//     playerDamageMod: req.params.playerDamageMod,
-//     win: req.params.win,
-//     loss: req.params.loss,
-//     gold: req.params.gold
-//   }
-//   Character.updateOne({character: req.params.character}, newStats, function(err, character) {
-//     if (err) throw err;
-//     console.log("Updated");
-//   });
-// });
-
-
 
 router.get('/character/:character', (req, res)=> {
   // Character.find({_id: req.params._id}, function(err, character) {

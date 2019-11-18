@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 var characterSchema = new mongoose.Schema({
   character: { type: String },
   account: { type: String },
+  image: { type: String},
   playerLevel: { type: Number },
   playerXp: { type: Number },
   playerHealth: { type: Number },

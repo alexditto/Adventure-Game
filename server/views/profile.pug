@@ -6,12 +6,36 @@ block content
       .col-md-8.col-md-offset-2
         h1.display-4 Choose your hero
         .container
+        form(method="POST" action='/profile')
           .row
-            form(method="POST" action='/profile')
-              div.form-group
-                label(for='character') Name your Character
-                input.form-control(type='text' id='character' name='character')
-                button#save.btn.btn-primary(type='submit') Save
+            .col
+                div.form-group
+                  label(for='character') Name your Character
+                  input.form-control(type='text' id='character' name='character')
+          .row
+            .col
+                input(type='radio', id="hero", name='hero', value='hero1.jpg')
+                |  Knight
+                img.heros(src='hero1.jpg')
+                br
+            .col
+                input(type='radio', id="hero", name='hero', value='hero2.jpg')
+                |  Wizard
+                img.heros(src='hero2.jpg')
+                br
+            .col
+                input(type='radio', id="hero", name='hero', value='hero3.jpg')
+                |  Cleric
+                img.heros(src='hero3.jpg')
+                br
+            .col
+                input(type='radio', id="hero", name='hero', value='hero4.jpg')
+                |  Thief
+                img.heros(src='hero4.jpg')
+                br
+            .col
+              button#save.btn.btn-primary.btn-block(type='submit') Create your New Hero
             h1.display-4
-            p Please choose a character
-            ul#characterDisplay
+          .row
+            .h3 Please choose a character
+      .row#characterDisplay

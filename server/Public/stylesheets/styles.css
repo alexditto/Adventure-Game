@@ -10,9 +10,21 @@ body{
   min-height: 300px;
 }
 
+#buttonRow {
+    margin-bottom: 2rem;
+}
+
 #stickyFoot{
   position: relative;
   min-height: 50vh;
+}
+.monsterImage{
+  max-height: 200px;
+  min-height: 200px;
+}
+
+.hide-button{
+  display: none;
 }
 
 .footer {
@@ -26,4 +38,20 @@ body{
 }
 .wizard{
   max-width: 15rem;
+}
+
+.inventory {
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+#characterDisplay img {
+  border-radius: 60%;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.heros{
+  max-height: 200px;
+  max-width: 200px;
 }
