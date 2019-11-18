@@ -1,8 +1,13 @@
 const getRandomNumber = upper => Math.floor(Math.random()* upper) +1;
 
+//player DOM
 const saveButton = document.getElementById("save");
 const saveAlert = document.getElementById("saveAlert");
 
+const playerHealthBar = document.getElementById("playerHealthBar");
+const playerHealthBarStatus = document.getElementById("playerHealthBarStatus");
+const enemyHealthBar = document.getElementById("enemyHealthBar");
+const enemyHealthBarStatus = document.getElementById("enemyHealthBarStatus");
 const playerHealthDisplay= document.getElementById("playerHealth");
 const playerLevelDisplay = document.getElementById("playerLevel");
 const enemyHealthDisplay= document.getElementById("enemyHealth");
@@ -17,8 +22,6 @@ const healthPotionButton = document.getElementById("healthPotion");
 const result= document.getElementById("result");
 const newFight= document.getElementById("newFight");
 const run= document.getElementById("run");
-// const castle= document.getElementById("castle");
-// const dragon= document.getElementById("dragon");
 
 const totalWins= document.getElementById("totalWins");
 const totalLosses= document.getElementById("totalLosses");
@@ -34,36 +37,27 @@ doorImage.src = "images/door.png";
 doorImage.classList.add("monsterImage");
 image.appendChild(doorImage);
 
+//set character Image after character FETCH
 setTimeout(()=> {
   const playerImageToDisplay = document.createElement("IMG");
   playerImageToDisplay.src = `images/${playerImage}`;
   playerImageToDisplay.setAttribute("id", "heroImage")
   playerImageToDisplay.classList.add("text-center");
   playerImageDisplay.appendChild(playerImageToDisplay);
-}, 100)
+  playerTotalHealth = playerHealth;
+}, 300);
 
-// let playerLevel = 1;
-// let playerXp = 0;
-// let playerHealth = 10;
-// let playerAC = 15;
-// let healthPotions = 3;
-// let playerAttackBonus= 5;
-// let playerAttackDie= 6;
-// let playerDamageMod= 4;
 let monster;
 let monsterName;
 let enemyHealth;
+let enemyTotalHealth;
 let enemyAttackBonus;
 let enemyAttackDie;
 let enemyDamageMod;
 let enemyAC;
 let monsterImage;
-// let roundCounter= 0;
-// let win = 0;
-// let loss = 0;
-// let gold = 0;
 
-// dragon.style.visibility= "hidden";
+//adjust the static variables for PATCH
 const send = ()=> {
   let obj ={};
   obj["playerLevel"] = playerLevel;
@@ -81,29 +75,7 @@ const send = ()=> {
   return obj
 }
 
-// save working!!!!
-// const putData = () =>{
-//   fetch('http://localhost:3000/api/patch/character/'+ window.location.href.slice(27), {
-//     method: "PATCH",
-//     body: JSON.stringify({
-//       playerLevel: 2,
-//       playerXp: 0,
-//       playerHealth: 20,
-//       playerAC: 15,
-//       healthPotions: 3,
-//       playerAttackBonus: 5,
-//       playerAttackDie: 5,
-//       playerDamageMod: 5,
-//       win: 5,
-//       loss: 0,
-//       gold: 326564
-//     }),
-//     headers: {"Content-Type": "application/json"},
-//   })
-//   .then(req =>console.log(req))
-//   .then(req => req.json())
-// }
-
+//PATCH character
 const putData = () =>{
   $("#save").html("").removeClass("btn btn-primary").addClass("spinner-border text-success");
   fetch('http://localhost:3000/api/patch/character/'+ window.location.href.slice(27), {
@@ -116,37 +88,7 @@ const putData = () =>{
   setTimeout(()=> {
     $("#save").removeClass("spinner-border text-success").addClass("btn btn-primary").html("Save");
   }, 2000)
-  // $("#save").fadeOut(400).fadeIn(400).removeClass("spinner-border text-success").addClass("btn btn-primary").html("Save");
 }
-
-// async function spinner() {
-//   await putData();
-//   $("#save").removeClass("btn btn-primary").addClass("spinner-border text-success").fadeOut(500).fadeIn(200);
-// }
-
-
-
-// const putData = () =>{
-//   fetch('http://localhost:3000/api/patch/character/'+ window.location.href.slice(27), {
-//     method: "PATCH",
-//     body: JSON.stringify([
-//       { "propName": "playerLevel", "value": 10},
-//       { "propName": "playerXp", "value": 1},
-//       { "propName": "playerHealth", "value": 35},
-//       { "propName": "playerAC", "value": 20},
-//       { "propName": "healthPotions", "value": 6},
-//       { "propName": "playerAttackBonus", "value": 7},
-//       { "propName": "plsayerAttackDie", "value": 6},
-//       { "propName": "playerDamageMod", "value" : 6},
-//       { "propName": "win", "value": 2},
-//       { "propName": "loss", "value": 0},
-//       { "propName": "gold", "value": 235}
-//     ]),
-//     headers: {"Content-Type": "application/json"},
-//   })
-//   .then(req =>console.log(req))
-//   .then(res => res.json())
-//   .then(data => console.log(data))
 save.addEventListener("click", putData);
 
 //creates a new monster and populates the stats and image
@@ -158,6 +100,7 @@ const newMonster = () => {
   // populates states and images
   monsterName = monster.name;
   enemyHealth = monster.health;
+  enemyTotalHealth = enemyHealth;
   enemyAttackBonus = monster.attackBonus;
   enemyAttackDie = monster.attackDie;
   enemyDamageMod = monster.damageMod;
@@ -168,36 +111,20 @@ const newMonster = () => {
   monsterImage.classList.add("monsterImage");
   image.removeChild(image.childNodes[0]);
   image.appendChild(monsterImage);
+
+  //Set playersTotalHealth
+  playerTotalHealth = playerHealth;
+
+  //fix healthBars
+  playerHealthBar.style.width= "100%";
+  enemyHealthBar.style.width= "100%";
+  enemyHealthBarStatus.classList.remove("bg-danger");
+  enemyHealthBarStatus.classList.add("bg-success");
+  playerHealthBarStatus.classList.remove("bg-danger");
+  playerHealthBarStatus.classList.add("bg-success");
 };
 
-const buyTheCastle= () => {
-  if (gold >= 500) {
-    gold -= 500;
-    dragon.style.visibility= "visible";
-    fight.style.visibility = "hidden";
-    run.style.visibility = "hidden";
-  } else {
-    alert("You still need more gold.")
-  }
-}
-
-// const fightTheDragon = () => {
-//   fight.style.visibility = "visible";
-//   run.style.visibility = "visible";
-//   adjustStats();
-//   image.removeChild(image.childNodes[0]);
-//   monsterName = "Ancient Red Dragon";
-//   enemyHealth = 250;
-//   enemyAttackBonus = 10;
-//   enemyAttackDie = 20;
-//   enemyDamageMod = 9;
-//   enemyAC = 25;
-//   monsterImage =document.createElement("img");
-//   monsterImage.src = "monsterimg/dragon.jpg";
-//   // monsterImage.src = monster.image;
-//   image.appendChild(monsterImage);
-// }
-
+//Level functions
 const levelUp = () => {
   playerXp ++;
   if (playerLevel % 3 == 0 && playerXp >= 3){ /* levels up with new potions */
@@ -223,6 +150,7 @@ const levelDown = () => {
   playerLevelDisplay.innerHTML = `Player Level: ${playerLevel}!`;
 };
 
+//gold functions
 const addGold = () => {
   gold += monster.cr * getRandomNumber(10);
   goldDisplay.innerHTML= `Total Gold: ${gold}`;
@@ -251,11 +179,11 @@ const useHealingPotion = () => {
   let heal = getRandomNumber(8)+2;
   playerHealth += heal;
   healthPotions --;
+  playerHealthBar.style.width = `${Math.floor((playerHealth/playerTotalHealth)*100)}%`
   playerHealthDisplay.innerHTML = `You gained ${heal} points back! Your health is now ${playerHealth}`;
   healthPotionButton.innerHTML = `Health Potion: ${healthPotions}`
   if (healthPotions <= 0) {
-    // healthPotionButton.style.visibility= "hidden";
-    helathPotionButton.classList.add("hide-button");
+    healthPotionButton.classList.add("hide-button");
   }
 }
 
@@ -267,11 +195,13 @@ const playerAttack = (attackBonus, attackDie, damageMod) => {
     let damage = getRandomNumber(attackDie) + damageMod;
     enemyAlert.innerHTML = `${monsterName} lost -${damage} Health.`;
     dataReturn = damage;
+
   } else {
     enemyAlert.innerHTML = `You missed.`;
   }
-  enemyAlertDisplay.show();
-  enemyAlertDisplay.delay( 400 ).fadeOut( 400 );
+
+  //hit animation
+  enemyAlertDisplay.show().delay( 400 ).fadeOut( 800 );
   return dataReturn;
 }
 
@@ -286,7 +216,9 @@ const enemyAttack = (attackBonus, attackDie, damageMod) => {
   } else {
     playerAlert.innerHTML= `The ${monsterName} missed.`
   }
-  playerAlertDisplay.show().delay( 400 ).fadeOut( 400 );
+
+  //hit animation
+  playerAlertDisplay.show().delay( 400 ).fadeOut( 800 );
   return dataReturn;
 }
 
@@ -294,24 +226,39 @@ const attackRound =()=> {
   // standard round attack
   roundCounter +=1;
   round.innerHTML = "Round " + roundCounter;
+
+  //enemy and player healthBar
   enemyHealth -= playerAttack(playerAttackBonus, playerAttackDie, playerDamageMod);
+  enemyHealthBar.style.width = `${Math.floor((enemyHealth/enemyTotalHealth)*100)}%`
+  if (enemyHealth <= 0){
+    enemyHealthBar.style.width = "0%";
+    enemyHealthBarStatus.classList.remove("bg-success");
+    enemyHealthBarStatus.classList.add("bg-danger");
+  }else if (Math.floor((enemyHealth/enemyTotalHealth)*100)< 25){
+    enemyHealthBarStatus.classList.remove("bg-success");
+    enemyHealthBarStatus.classList.add("bg-danger");
+  }
   enemyHealthDisplay.innerHTML = `Enemy Health: ${enemyHealth}. You are fighting a(n) ${monsterName}.`;
   playerHealth -= enemyAttack(enemyAttackBonus, enemyAttackDie, enemyDamageMod);
+  playerHealthBar.style.width = `${Math.floor((playerHealth/playerTotalHealth)*100)}%`;
+  if (playerHealth <= 0){
+    playerHealthBar.style.width = "0%";
+    playerHealthBarStatus.classList.remove("bg-success");
+    playerHealthBarStatus.classList.add("bg-danger");
+  }else if(Math.floor((playerHealth/playerTotalHealth)*100)< 25){
+    playerHealthBarStatus.classList.remove("bg-success");
+    playerHealthBarStatus.classList.add("bg-danger");
+  }
   playerHealthDisplay.innerHTML = `Player Health: ${playerHealth}`;
   // if statement for outcome of attackround
   if (enemyHealth <= 0 && playerHealth > 0) {
     win += 1;
     levelUp();
     addGold();
-    // let li = document.createElement("li");
-    // li.textContent = monster.name;
-    // li.className += "overflow-auto";
-    // monstersSlain.appendChild(li);
     result.innerHTML = "Player Wins!!!";
     fight.classList.add("hide-button");
     healthPotionButton.classList.add("hide-button");
     run.classList.add("hide-button");
-    // newFight.style.visibility = 'visible';
     newFight.classList.remove("hide-button");
     totalWins.innerHTML = `Total Wins: ${win}`;
     image.removeChild(image.childNodes[0]);
@@ -323,7 +270,6 @@ const attackRound =()=> {
     fight.classList.add("hide-button");
     healthPotionButton.classList.add("hide-button");
     run.classList.add("hide-button");
-    // newFight.style.visibility = 'visible';
     newFight.classList.remove("hide-button");
     totalLosses.innerHTML =  `Total Losses: ${loss}`;
     image.removeChild(image.childNodes[0]);
@@ -337,19 +283,12 @@ newMonster();
 
 playerHealthDisplay.innerHTML= `Player Health: ${playerHealth}`;
 enemyHealthDisplay.innerHTML= `Enemy Health ${enemyHealth}. You are fighting a(n) ${monsterName}.`;
-// newFight.style.visibility= "hidden";
 newFight.classList.add("hide-button");
 
 healthPotionButton.addEventListener("click", ()=> useHealingPotion());
 
 fight.addEventListener("click", ()=> {
   attackRound();
-  // while(playerImageDisplay.firstChild){playerImageDisplay.removeChild(playerImageDisplay.firstChild)};
-  // const playerImageToDisplay = document.createElement("IMG");
-  // playerImageToDisplay.src = `images/${playerImage}`;
-  // playerImageToDisplay.setAttribute("id", "heroImage")
-  // playerImageToDisplay.classList.add("text-center");
-  // playerImageDisplay.appendChild(playerImageToDisplay);
 });
 
 newFight.addEventListener("click", ()=> {
@@ -361,7 +300,6 @@ newFight.addEventListener("click", ()=> {
   fight.classList.remove("hide-button");
   healthPotionButton.classList.remove("hide-button");
   run.classList.remove("hide-button");
-  // newFight.style.visibility= 'hidden';
   newFight.classList.add("hide-button");
   adjustStats();
 });
@@ -374,11 +312,3 @@ run.addEventListener("click", ()=> {
   newMonster();
   adjustStats();
 });
-
-// castle.addEventListener("click", ()=> {
-//   buyTheCastle();
-// });
-//
-// dragon.addEventListener("click", ()=> {
-//   fightTheDragon();
-// });

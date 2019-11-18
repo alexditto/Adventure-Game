@@ -6,6 +6,7 @@ let playerLevel = 1;
 let playerImage;
 let playerXp = 0;
 let playerHealth = 10;
+let playerTotalHealth;
 let playerAC = 15;
 let healthPotions = 3;
 let playerAttackBonus= 5;

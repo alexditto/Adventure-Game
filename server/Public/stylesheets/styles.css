@@ -18,9 +18,11 @@ body{
   position: relative;
   min-height: 50vh;
 }
+
 .monsterImage{
   max-height: 200px;
   min-height: 200px;
+  max-width: 40%;
 }
 
 .hide-button{
@@ -51,6 +53,14 @@ body{
   max-width: 100px;
 }
 
+.icon {
+  cursor: pointer;
+}
+
+.spacer{
+  margin: 50px;
+}
+
 .heros{
   max-height: 200px;
   max-width: 200px;
@@ -58,11 +68,12 @@ body{
 
 #heroImage {
   border-radius: 25%;
-      max-height: 200px;
-      margin: auto;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
+  max-height: 200px;
+  margin: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 40%;
 }
 
 *:focus {
