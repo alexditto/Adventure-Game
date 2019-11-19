@@ -32,6 +32,8 @@ let monsterManualMonsters = [
   {name: "Unicorn", ac: 12, health: 67, attackBonus: 7, attackDie: 12, damageMod: 4, image: "images/monsterImg/unicorn.jpg", cr: 12},
   {name: "Nightmare", ac: 13, health: 68, attackBonus: 6, attackDie: 16, damageMod: 4, image: "images/monsterImg/nightmare.jpg", cr: 12},
   {name: "Mimic", ac: 12, health: 58, attackBonus: 5, attackDie: 8, damageMod: 3, image: "images/monsterImg/mimic.jpg", cr: 10},
+  {name: "lart", ac:15 , health:10 , attackBonus:2 , attackDie:2 , damageMod: 1, image: "images/monsterImg/lart.jpg", cr:1 },
+  {name: "spika", ac: 15, health: 10, attackBonus: 2, attackDie: 2, damageMod: 1, image: "images/monsterImg/spika.jpg", cr:1 },
 ];
 
 let ancientRedDragon = [

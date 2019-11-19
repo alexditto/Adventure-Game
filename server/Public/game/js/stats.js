@@ -16,11 +16,14 @@ let roundCounter= 0;
 let win = 0;
 let loss = 0;
 let gold= 0;
+let account ="";
+let username= "";
 
 fetch(apiAddress)
       .then(res => res.json())
       .then(function(data) {
         playerName = data[0].character;
+        account = data[0].account;
         playerLevel = data[0].playerLevel;
         playerImage = data[0].image;
         playerXp = data[0].playerXp;
@@ -34,3 +37,9 @@ fetch(apiAddress)
         gold = data[0].gold;
         playerNameDisplay.innerHTML = `Player Name: ${playerName}`;
       })
+
+setTimeout(()=> {
+  fetch(`http://localhost:3000/api/profile/${account}`)
+    .then(res=> res.json())
+    .then(data => username = data[0].username)
+}, 300);

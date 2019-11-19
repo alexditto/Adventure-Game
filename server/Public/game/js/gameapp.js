@@ -83,11 +83,28 @@ const putData = () =>{
     body: JSON.stringify(send()),
     headers: {"Content-Type": "application/json"},
   })
-  .then(res => res.json())
-  .then(data =>console.log(data))
-  setTimeout(()=> {
-    $("#save").removeClass("spinner-border text-success").addClass("btn btn-primary").html("Save");
-  }, 2000)
+  .then(res => {
+    setTimeout(()=> {
+      $("#save").removeClass("spinner-border text-success").addClass("btn btn-primary").html("Save");
+    }, 2000);
+    console.log(res.json());
+    console.log(playerName);
+    console.log(account);
+    console.log(username);
+    fetch(`http://localhost:9200/leaderboard/_doc/${account}_${playerName}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        username: username,
+        playerName: playerName,
+        level: playerLevel,
+        win: win,
+        gold: gold
+      }),
+      headers: {"Content-Type": "application/json"},
+    })
+  })
+  // .then(data =>console.log(data))
+
 }
 save.addEventListener("click", putData);
 

@@ -117,7 +117,7 @@ router.post("/profile", (req, res, next)=>{
     image: req.body.hero,
     playerLevel: 1,
     playerXp: 0,
-    playerHealth: 15,
+    playerHealth: 10,
     playerAC: 15,
     healthPotions: 3,
     playerAttackBonus: 5,

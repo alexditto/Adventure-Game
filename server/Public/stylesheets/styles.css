@@ -8,10 +8,15 @@ body{
   justify-content: center;
   max-height: 300px;
   min-height: 300px;
+  border-bottom: 2rem;
 }
 
 #buttonRow {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+#save{
+  margin: 2rem 0rem;
 }
 
 #stickyFoot{
