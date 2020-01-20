@@ -1,5 +1,7 @@
 # Adventure-Game
 
+The full game is playable at http://dittoscodingportfolio.com/ 
+
 The Adventure-Game is a simple Dungeons and Dragons lite game that utilizes a random number generator to process a simple js game.
 
 The application uses the following dependencies
