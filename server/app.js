@@ -9,12 +9,12 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 //mongoDB connection via mongoose
-mongoose.connect("mongodb+srv://ditto:tonythecat@cluster0.jwied.mongodb.net/adventureGame", { useNewUrlParser: true }).then(()=> console.log('Mongo is Connected'));
+mongoose.connect("mongodb+srv://ditto:<password>@cluster0.jwied.mongodb.net/adventureGame", { useNewUrlParser: true }).then(()=> console.log('Mongo is Connected'));
 var db = mongoose.connection;
 db.on('error', console.log.bind(console, 'connection error:'));
 
 const store = new MongoDBStore({
-  uri: "mongodb+srv://ditto:tonythecat@cluster0.jwied.mongodb.net/adventureGame",
+  uri: "mongodb+srv://ditto:<password>@cluster0.jwied.mongodb.net/adventureGame",
   collection: 'sessions'
 });
 
