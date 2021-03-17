@@ -2,26 +2,29 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoDBStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 const app = express();
 app.use(cors());
 //mongoDB connection via mongoose
-mongoose.connect("mongodb://localhost:27017/adventureGame", { userUnifiedTopology: true, useNewUrlParser: true }).then(()=> console.log('Mongo is Connected'));
+mongoose.connect("mongodb+srv://ditto:tonythecat@cluster0.jwied.mongodb.net/adventureGame", { useNewUrlParser: true }).then(()=> console.log('Mongo is Connected'));
 var db = mongoose.connection;
 db.on('error', console.log.bind(console, 'connection error:'));
 
-//use sessions for tracking logins
-app.use(session({
-  secret: "The Secret door requires a perception of 15.",
+const store = new MongoDBStore({
+  uri: "mongodb+srv://ditto:tonythecat@cluster0.jwied.mongodb.net/adventureGame",
+  collection: 'sessions'
+});
+
+
+app.use(require('express-session')({
+  secret: 'The Secret door requires a perception of 15.',
+  store: store,
   resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: db
-  })
-}));
+  saveUninitialized: true
+}))
 
 //User Id
 app.use((req, res, next)=> {
@@ -30,8 +33,8 @@ app.use((req, res, next)=> {
 });
 
 //Parse incoming requests and cookie
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //View engine and PUG

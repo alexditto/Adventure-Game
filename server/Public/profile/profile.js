@@ -8,7 +8,7 @@ function changeColorTest() {
   return false;
 }
 
-fetch(`http://localhost:3000/api/character/` + window.location.href.slice(30))
+fetch(`http://localhost:3000/api/character/` + window.location.href.split('/').reverse()[0])
       .then(res=> res.json())
       .then(data=> {
         for(n of data){

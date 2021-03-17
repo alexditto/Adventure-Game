@@ -1,4 +1,4 @@
-const apiAddress= 'http://localhost:3000/api/'+ window.location.href.slice(27);
+const apiAddress= 'http://localhost:3000/api/'+ window.location.href.split('/').reverse()[0];
 const playerNameDisplay = document.getElementById("playerNameDisplay");
 
 let playerName= "";

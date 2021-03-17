@@ -78,7 +78,7 @@ const send = ()=> {
 //PATCH character
 const putData = () =>{
   $("#save").html("").removeClass("btn btn-primary").addClass("spinner-border text-success");
-  fetch('http://localhost:3000/api/patch/character/'+ window.location.href.slice(27), {
+  fetch('http://localhost:3000/api/patch/character/'+ window.location.href.split('/').reverse()[0], {
     method: "PATCH",
     body: JSON.stringify(send()),
     headers: {"Content-Type": "application/json"},
